@@ -56,7 +56,7 @@ OSVER       := $(shell sw_vers -productVersion | cut -b 1-2)
 ifeq ($(shell sw_vers -productName),macOS)
 IOS         := 0
 SDKPATH     ?= $(shell xcrun --sdk iphoneos --show-sdk-path)
-BOOTJDK     ?= $(if $(JAVA_HOME),$(JAVA_HOME)/bin,$(shell /usr/libexec/java_home -v 1.8 2>/dev/null)/bin)
+BOOTJDK     ?= $(JAVA_HOME)/bin
 $(warning Building on macOS.)
 else
 IOS         := 1
@@ -186,12 +186,12 @@ ifneq ($(call METHOD_DEPCHECK,cmake --version),1)
 $(error You need to install cmake)
 endif
 
-ifneq ($(call METHOD_DEPCHECK,$(BOOTJDK)/javac -version),1)
+ifneq ($(call METHOD_DEPCHECK,javac -version),1)
 $(error You need to install JDK 8)
 endif
 
 ifeq ($(IOS),0)
-ifeq ($(filter 1.8.0,$(shell $(BOOTJDK)/javac -version &> javaver.txt && cat javaver.txt | cut -b 7-11 && rm -rf javaver.txt)),)
+ifeq ($(filter 1.8.0,$(shell javac -version &> javaver.txt && cat javaver.txt | cut -b 7-11 && rm -rf javaver.txt)),)
 $(error You need to install JDK 8)
 endif
 endif

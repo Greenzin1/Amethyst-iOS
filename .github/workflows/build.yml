@@ -26,9 +26,10 @@ jobs:
 
       - name: Build IPA
         run: |
-          export PATH="$JAVA_HOME_8_X64/bin:/opt/homebrew/bin:$PATH"
+          export JAVA_HOME="$JAVA_HOME_8_X64"
+          export PATH="$JAVA_HOME/bin:/opt/homebrew/bin:$PATH"
           javac -version
-          make -j$(sysctl -n hw.ncpu) dsym package PLATFORM=2 SLIMMED=1 BOOTJDK="$JAVA_HOME_8_X64/bin"
+          make -j$(sysctl -n hw.ncpu) dsym package PLATFORM=2 SLIMMED=1 BOOTJDK="$JAVA_HOME/bin" IOS=1
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
