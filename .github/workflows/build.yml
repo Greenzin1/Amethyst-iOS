@@ -1,0 +1,43 @@
+name: Build IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8
+
+      - name: Install dependencies
+        run: |
+          brew install gmake cmake
+
+      - name: Build IPA
+        run: |
+          export PATH=/opt/homebrew/bin:$PATH
+          gmake -j$(sysctl -n hw.ncpu) dsym package PLATFORM=2 SLIMMED=1
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Amethyst-iOS-Sideload
+          path: artifacts/*.ipa
+
+      - name: Upload Tipa (TrollStore)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Amethyst-iOS-TrollStore
+          path: artifacts/*-trollstore.tipa
