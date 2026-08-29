@@ -4,6 +4,8 @@
 #import "UIKit+hook.h"
 #import "utils.h"
 
+BOOL _UISolariumEnabled(void) { return NO; }
+
 __weak UIWindow *mainWindow, *externalWindow;
 
 void swizzle(Class class, SEL originalAction, SEL swizzledAction) {
