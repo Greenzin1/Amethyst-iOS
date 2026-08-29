@@ -20,6 +20,7 @@ extern NSNotificationName UIPresentationControllerPresentationTransitionWillBegi
 @end
 
 // private functions
+extern BOOL _UISolariumEnabled(void);
 
 @interface UIBarButtonItem(private)
 - (UIView *)view;
