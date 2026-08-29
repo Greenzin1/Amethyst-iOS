@@ -22,7 +22,7 @@ jobs:
           java-version: 8
 
       - name: Install dependencies
-        run: brew install cmake
+        run: brew install cmake wget && brew install ldid || brew install ProcursusTeam/procursus/ldid
 
       - name: Build IPA
         run: |
