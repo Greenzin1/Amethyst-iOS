@@ -145,17 +145,9 @@
         } else {
             [self enableJITWithAltKit];
         }
-    } else if (!NSProcessInfo.processInfo.macCatalystApp && !getenv("SIMULATOR_DEVICE_NAME")) {
+    } else {
         [self displayProgress:localize(@"login.jit.fail", nil)];
         [self displayProgress:nil];
-        UIAlertController* alert = [UIAlertController alertControllerWithTitle:localize(@"login.jit.fail.title", nil)
-            message:localize(@"login.jit.fail.description_unsupported", nil)
-            preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction* okAction = [UIAlertAction actionWithTitle:localize(@"OK", nil) style:UIAlertActionStyleDefault handler:^(id action){
-            exit(-1);
-        }];
-        [alert addAction:okAction];
-        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
