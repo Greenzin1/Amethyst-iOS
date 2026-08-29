@@ -25,13 +25,12 @@ jobs:
         run: brew install cmake
 
       - name: Build IPA
+        env:
+          BOOTJDK: ${{ env.JAVA_HOME_8_X64 }}/bin
         run: |
-          export JAVA_HOME=$JAVA_HOME_8_X64
-          export PATH="$JAVA_HOME/bin:/opt/homebrew/bin:$PATH"
-          export BOOTJDK="$JAVA_HOME/bin"
-          echo "BOOTJDK=$BOOTJDK"
-          $BOOTJDK/javac -version
-          make -j$(sysctl -n hw.ncpu) dsym package PLATFORM=2 SLIMMED=1 IOS=1 BOOTJDK="$BOOTJDK"
+          export PATH="$JAVA_HOME_8_X64/bin:/opt/homebrew/bin:$PATH"
+          javac -version
+          make -j$(sysctl -n hw.ncpu) dsym package PLATFORM=2 SLIMMED=1
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
